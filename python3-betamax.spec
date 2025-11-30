@@ -1,7 +1,8 @@
 #
 # Conditional build:
-%bcond_without	doc	# Sphinx documentation
-%bcond_without	tests	# unit+integration tests
+%bcond_without	doc		# Sphinx documentation
+%bcond_without	tests		# unit tests
+%bcond_with	tests_net	# integration+regression tests, network required
 
 Summary:	VCR imitation for python-requests
 Summary(pl.UTF-8):	Imitacja VCR dla python-requests
@@ -59,7 +60,7 @@ Dokumentacja API modułu Pythona betamax.
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 PYTEST_PLUGINS="betamax.fixtures.pytest" \
 PYTHONPATH=$(pwd)/src \
-%{__python3} -m pytest tests -k 'not test_records_new_interaction'
+%{__python3} -m pytest tests%{!?with_tests_net:/unit} -k 'not test_records_new_interaction'
 %endif
 
 %if %{with doc}
